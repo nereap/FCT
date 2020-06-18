@@ -1,0 +1,44 @@
+escenario ( una máquina kali linux como firewall, otra kali linux en la red 172.16.2.0/24 y una windows y otra ubuntu en la red 172.16.1.0/24 )
+PRUEBA 1
+Se requiere que no se tenga acceso desde el exterior hacia ningún servicio de ningún equipo de nuestra red.
+
+Iptables –P FORWARD DROP
+
+PRUEBA 2
+ Se requiere que solo se permita el tráfico al Windows pero no al Ubuntu.
+ 
+ iptables –A FORWARD –j DROP –d 172.16.1.130
+ 
+ PRUEBA 3
+ Realmente nos damos cuenta de que lo crítico es el servidor SSH 
+ pero no la navegación web, por lo que se necesita que se acepte la navegación web y no al servidor SSH.
+ 
+ iptables –A FORWARD –j DROP –d 172.16.1.130
+ iptables –A FORWARD –p tcp --dport 80 –j ACCEPT
+ 
+ PRUEBA 4
+ Suponiendo que el cortafuego fuera otra máquina que requiere tener acceso al servicio SSH 
+ pero no a la navegación web ni a ningún otro servicio.
+ 
+iptables –A OUTPUT –p tcp --dport 22 -j ACCEPT
+iptables -P OUTPUT DROP
+
+PRUEBA 5
+Se requiere que cuando una máquina interna (Ubuntu) navege hacia el exterior (Kali) se enmascare la IP origen (SNAT)
+simulando el tráfico que existe detrás de un router.
+
+Tail –f /var/log/apache2/acces.log
+Iptables –F
+iptables -A POSTROUTING -t nat -o eth1 -j SNAT --to-source 172.16.2.129
+Iptables –t nat –list
+
+
+
+
+
+
+
+
+
+
+
