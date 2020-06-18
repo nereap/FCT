@@ -1,0 +1,22 @@
+import os
+import sys
+import shodan
+
+SHODAN_API_KEY = "your_API_key_here"
+
+api = shodan.Shodan(SHODAN_API_KEY)
+searchItem = sys.argv[1]
+
+try:
+    # Search Shodan
+    results = api.search(searchItem)
+
+    # Show the results
+    print 'results found: %s' % results['total']
+    for result in results['matches']:
+        print 'IP: %s' % result['ip_str']
+        print result['data']
+        print ''
+
+except shodan.APIError, e:
+    print 'Error: %s' % e
